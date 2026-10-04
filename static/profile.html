@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/" class="nav-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>Quiz<span class="gradient-text">Nova</span></span>
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="/dashboard.html#available-quizzes-section" class="nav-link">Explore Quizzes</a></li>
+        <li><a href="/leaderboard.html" class="nav-link">Leaderboard</a></li>
+        <li><a href="/profile.html" class="nav-link active">My Progress</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section"></div>
+    </nav>
+  </header>
+
+  <!-- Profile Layout -->
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Academy Navigation</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="/dashboard.html" class="sidebar-item">
+              <i class="fa-solid fa-house"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="/dashboard.html#available-quizzes-section" class="sidebar-item">
+              <i class="fa-solid fa-book-open"></i>
+              <span>Explore Quizzes</span>
+            </a>
+          </li>
+          <li>
+            <a href="/profile.html" class="sidebar-item active">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>My Progress & History</span>
+            </a>
+          </li>
+          <li>
+            <a href="/leaderboard.html" class="sidebar-item">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Leaderboard</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-user-footer">
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="width: 100%;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+      <div class="glass-panel profile-card" style="padding: 2.2rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+        <div class="user-avatar-circle" style="width: 76px; height: 76px; font-size: 1.8rem;" id="profile-avatar">
+          QN
+        </div>
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+            <h1 style="font-size: 1.8rem;" id="profile-name">Loading...</h1>
+            <span class="badge badge-purple" id="profile-role">STUDENT</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.95rem;" id="profile-email">email@example.com</p>
+          <div style="font-size: 0.82rem; color: var(--text-sub); margin-top: 6px;" id="profile-joined">
+            Member since: -
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid-row">
+        <div class="metric-card">
+          <div class="metric-icon-box icon-purple">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div class="metric-details">
+            <span class="metric-val" id="profile-stat-completed">0</span>
+            <span class="metric-sub">Quizzes Taken</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box icon-blue">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div class="metric-details">
+            <span class="metric-val" id="profile-stat-avg">0%</span>
+            <span class="metric-sub">Average Score</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box icon-green">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <div class="metric-details">
+            <span class="metric-val" id="profile-stat-best">0%</span>
+            <span class="metric-sub">Highest Score</span>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-icon-box icon-cyan">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+          </div>
+          <div class="metric-details">
+            <span class="metric-val" id="profile-stat-status">Active</span>
+            <span class="metric-sub">Account Status</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Attempt History -->
+      <div style="margin-top: 2rem;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1.2rem;">Complete Attempt History</h2>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Quiz Title</th>
+                <th>Score</th>
+                <th>Percentage</th>
+                <th>Time Spent</th>
+                <th>Date Taken</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="profile-attempts-tbody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!Auth.requireAuth()) return;
+
+      try {
+        const userProfile = await apiFetch('/api/auth/me');
+        const attempts = await apiFetch('/api/my-attempts');
+
+        // Populate User Info
+        document.getElementById('profile-name').textContent = userProfile.name;
+        document.getElementById('profile-email').textContent = userProfile.email;
+        document.getElementById('profile-role').textContent = userProfile.role;
+        document.getElementById('profile-role').className = userProfile.role === 'ADMIN' ? 'badge badge-purple' : 'badge badge-blue';
+        document.getElementById('profile-joined').textContent = `Member since: ${formatDate(userProfile.created_at)}`;
+
+        const initials = userProfile.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.getElementById('profile-avatar').textContent = initials;
+
+        // Populate Stats
+        const stats = userProfile.stats || {};
+        document.getElementById('profile-stat-completed').textContent = stats.quizzes_completed || 0;
+        document.getElementById('profile-stat-avg').textContent = `${stats.average_percentage || 0}%`;
+        document.getElementById('profile-stat-best').textContent = `${stats.best_percentage || 0}%`;
+
+        // Populate Attempts Table
+        const tbody = document.getElementById('profile-attempts-tbody');
+        if (attempts.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 2rem; color: var(--text-muted);">
+                No attempts recorded. Take your first quiz today!
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = attempts.map(att => {
+          const pct = att.percentage;
+          let badge = 'badge-red';
+          if (pct >= 85) badge = 'badge-green';
+          else if (pct >= 60) badge = 'badge-amber';
+
+          return `
+            <tr>
+              <td style="font-weight: 600; color: var(--text-main);">${escapeHtml(att.quiz_title)}</td>
+              <td>${att.score} / ${att.total_questions}</td>
+              <td><span class="badge ${badge}">${pct}%</span></td>
+              <td style="color: var(--text-muted);">${formatDuration(att.time_taken)}</td>
+              <td style="color: var(--text-muted); font-size: 0.85rem;">${formatDate(att.completed_at)}</td>
+              <td>
+                <a href="/result.html?attempt_id=${att.id}" class="btn btn-secondary btn-sm">
+                  <i class="fa-solid fa-chart-pie"></i> Result
+                </a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        showToast('Error', err.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

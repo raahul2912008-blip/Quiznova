@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page auth-login-page">
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <button class="theme-toggle-btn" onclick="ThemeManager.cycleTheme()" title="Switch Theme">
+          <span id="theme-toggle-label">🌙 Navy</span>
+        </button>
+        <a href="/register.html" class="btn btn-secondary btn-sm">Create Account</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Login Container -->
+  <main class="auth-container auth-split-layout">
+    <aside class="auth-showcase" aria-label="Welcome to QuizNova">
+      <div class="auth-showcase-content">
+        <a href="/" class="auth-showcase-brand">
+          <span class="auth-showcase-brand-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+          <span>Quiz<span>Nova</span></span>
+        </a>
+        <div class="auth-showcase-copy">
+          <span class="auth-eyebrow"><i class="fa-solid fa-sparkles"></i> A brighter way to learn</span>
+          <h2>Learn.<br>Practice.<br><span>Achieve.</span></h2>
+          <p>Build confidence one question at a time. Your next learning breakthrough starts here.</p>
+        </div>
+        <div class="auth-learning-visual" aria-hidden="true">
+          <div class="auth-visual-orbit auth-visual-orbit-one"></div>
+          <div class="auth-visual-orbit auth-visual-orbit-two"></div>
+          <div class="auth-visual-book"><i class="fa-solid fa-book-open"></i></div>
+          <div class="auth-visual-note auth-visual-note-top">
+            <span class="auth-visual-note-icon"><i class="fa-solid fa-code"></i></span>
+            <span><strong>Explore ideas</strong><small>Find a topic you love</small></span>
+          </div>
+          <div class="auth-visual-note auth-visual-note-bottom">
+            <span class="auth-visual-note-icon auth-visual-note-icon-warm"><i class="fa-solid fa-lightbulb"></i></span>
+            <span><strong>Grow at your pace</strong><small>Every step counts</small></span>
+          </div>
+        </div>
+        <div class="auth-showcase-footer"><i class="fa-solid fa-circle-check"></i> Your learning journey, all in one place</div>
+      </div>
+    </aside>
+
+    <section class="auth-form-side" aria-labelledby="auth-heading">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-card-icon"><i class="fa-solid fa-hand-wave"></i></span>
+        <span class="auth-card-kicker">YOUR CLASSROOM IS WAITING</span>
+        <h1 id="auth-heading">Welcome Back! 👋</h1>
+        <p>Continue your learning journey.</p>
+      </div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-email">Email Address</label>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" id="login-email" class="form-input" placeholder="name@example.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            <label for="login-password">Password</label>
+          </div>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-key input-icon"></i>
+            <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" data-target="login-password" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary auth-submit-btn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+        </button>
+      </form>
+
+      <!-- Demo Login -->
+      <div class="demo-account-box">
+        <div class="demo-account-title">
+          <i class="fa-solid fa-user-check"></i>
+          <span>Demo Login</span>
+        </div>
+        <div class="demo-btn-group">
+          <button type="button" id="demo-student-login" class="btn-demo" onclick="fillDemoStudent()">
+            <i class="fa-solid fa-user-graduate"></i> Student Login
+          </button>
+          <button type="button" id="demo-admin-login" class="btn-demo" onclick="fillDemoAdmin()">
+            <i class="fa-solid fa-user-shield"></i> Admin Login
+          </button>
+        </div>
+      </div>
+
+      <div class="auth-switch-link">
+        Don't have an account yet?
+        <a href="/register.html">Create Account</a>
+      </div>
+    </div>
+    <p class="auth-form-footnote"><i class="fa-solid fa-shield-halved"></i> A welcoming space to learn and improve.</p>
+    </section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/auth.js?v=20261004"></script>
+</body>
+</html>

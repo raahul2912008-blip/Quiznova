@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="leaderboard-page">
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="/dashboard.html#available-quizzes-section" class="nav-link">Explore Quizzes</a></li>
+        <li><a href="/leaderboard.html" class="nav-link active">Leaderboard</a></li>
+        <li><a href="/profile.html" class="nav-link">My Progress</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section"></div>
+    </nav>
+  </header>
+
+  <!-- Leaderboard Container -->
+  <main class="leaderboard-container">
+    <div class="section-header" style="margin-bottom: 2rem;">
+      <span class="section-tag"><i class="fa-solid fa-crown"></i> Hall of Fame</span>
+      <h1 class="section-title">QuizNova <span class="gradient-text">Leaderboard</span></h1>
+      <p class="section-subtitle">
+        Celebrating top intellectual achievers across timed assessments. High percentage and swift completion dictate rank.
+      </p>
+    </div>
+
+    <!-- Filter Bar for Quiz Selection -->
+    <div class="filter-container" style="justify-content: flex-end; margin-bottom: 2rem;">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <label for="leaderboard-quiz-filter" style="font-size: 0.9rem; font-weight: 600; color: var(--text-muted);">
+          Filter By Assessment:
+        </label>
+        <select id="leaderboard-quiz-filter" class="select-filter" style="min-width: 220px;">
+          <option value="">Overall Platform Rankings</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Top 3 Podium Cards -->
+    <div class="podium-grid" id="podium-container">
+      <!-- Generated dynamically -->
+    </div>
+
+    <!-- Full Leaderboard Table -->
+    <div class="data-table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 80px;">Rank</th>
+            <th>Student Name</th>
+            <th>Quiz Assessment</th>
+            <th>Score & Percentage</th>
+            <th>Duration</th>
+            <th>Completion Date</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-tbody">
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 3rem;">
+              <span class="spinner"></span>
+              <p style="color: var(--text-muted); margin-top: 8px;">Loading rankings...</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      loadLeaderboard();
+      const filterSelect = document.getElementById('leaderboard-quiz-filter');
+      if (filterSelect) {
+        filterSelect.addEventListener('change', () => {
+          loadLeaderboard(filterSelect.value);
+        });
+      }
+    });
+
+    async function loadLeaderboard(quizId = '') {
+      const tbody = document.getElementById('leaderboard-tbody');
+      const podium = document.getElementById('podium-container');
+      const filterSelect = document.getElementById('leaderboard-quiz-filter');
+
+      try {
+        const url = quizId ? `/api/leaderboard?quiz_id=${quizId}` : `/api/leaderboard`;
+        const data = await apiFetch(url);
+
+        // Populate filter dropdown once
+        if (filterSelect && filterSelect.options.length <= 1 && data.quizzes) {
+          data.quizzes.forEach(q => {
+            const opt = document.createElement('option');
+            opt.value = q.id;
+            opt.textContent = q.title;
+            filterSelect.appendChild(opt);
+          });
+        }
+
+        const list = data.leaderboard || [];
+
+        // Render Podium (Top 3)
+        if (list.length >= 1) {
+          const top1 = list[0];
+          const top2 = list[1] || null;
+          const top3 = list[2] || null;
+
+          podium.innerHTML = `
+            ${top2 ? `
+              <div class="podium-card podium-2">
+                <div class="podium-avatar">
+                  ${escapeHtml(top2.student_name[0])}
+                  <div class="crown-badge" style="color: #cbd5e1;"><i class="fa-solid fa-medal"></i> 2nd</div>
+                </div>
+                <div class="podium-name">${escapeHtml(top2.student_name)}</div>
+                <div class="podium-quiz">${escapeHtml(top2.quiz_title)}</div>
+                <div class="podium-score" style="color: var(--text-muted);">${top2.percentage}%</div>
+                <div style="font-size: 0.8rem; color: var(--text-sub);">${top2.score}/${top2.total_questions} correct</div>
+              </div>
+            ` : '<div class="podium-card podium-2" style="opacity: 0.4;"><div>Awaiting Rank #2</div></div>'}
+
+            <div class="podium-card podium-1">
+              <div class="podium-avatar">
+                ${escapeHtml(top1.student_name[0])}
+                <div class="crown-badge" style="color: #fbbf24;"><i class="fa-solid fa-crown"></i> 1st</div>
+              </div>
+              <div class="podium-name gradient-text" style="font-size: 1.3rem;">${escapeHtml(top1.student_name)}</div>
+              <div class="podium-quiz">${escapeHtml(top1.quiz_title)}</div>
+              <div class="podium-score" style="color: var(--accent-amber);">${top1.percentage}%</div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">${top1.score}/${top1.total_questions} correct</div>
+            </div>
+
+            ${top3 ? `
+              <div class="podium-card podium-3">
+                <div class="podium-avatar">
+                  ${escapeHtml(top3.student_name[0])}
+                  <div class="crown-badge" style="color: #d97706;"><i class="fa-solid fa-award"></i> 3rd</div>
+                </div>
+                <div class="podium-name">${escapeHtml(top3.student_name)}</div>
+                <div class="podium-quiz">${escapeHtml(top3.quiz_title)}</div>
+                <div class="podium-score" style="color: #d97706;">${top3.percentage}%</div>
+                <div style="font-size: 0.8rem; color: var(--text-sub);">${top3.score}/${top3.total_questions} correct</div>
+              </div>
+            ` : '<div class="podium-card podium-3" style="opacity: 0.4;"><div>Awaiting Rank #3</div></div>'}
+          `;
+          podium.style.display = 'grid';
+        } else {
+          podium.innerHTML = '';
+          podium.style.display = 'none';
+        }
+
+        // Render Table
+        if (list.length === 0) {
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="6" style="text-align: center; padding: 2.5rem; color: var(--text-muted);">
+                No attempts recorded for this category yet. Be the first to claim Rank #1!
+              </td>
+            </tr>
+          `;
+          return;
+        }
+
+        tbody.innerHTML = list.map(item => {
+          let rankBadge = `<span style="font-weight: 700;">#${item.rank}</span>`;
+          if (item.rank === 1) rankBadge = `<span class="badge badge-amber"><i class="fa-solid fa-crown"></i> #1</span>`;
+          else if (item.rank === 2) rankBadge = `<span class="badge badge-gray"><i class="fa-solid fa-medal"></i> #2</span>`;
+          else if (item.rank === 3) rankBadge = `<span class="badge badge-red" style="color: #fdba74; border-color: #fb923c;"><i class="fa-solid fa-award"></i> #3</span>`;
+
+          const pct = item.percentage;
+          let scoreBadge = 'badge-red';
+          if (pct >= 85) scoreBadge = 'badge-green';
+          else if (pct >= 60) scoreBadge = 'badge-amber';
+
+          return `
+            <tr>
+              <td>${rankBadge}</td>
+              <td style="font-weight: 600; color: var(--text-main);">
+                ${escapeHtml(item.student_name)}
+              </td>
+              <td>
+                <span style="color: var(--text-main);">${escapeHtml(item.quiz_title)}</span>
+                <span class="badge badge-purple" style="font-size: 0.7rem; margin-left: 6px;">${escapeHtml(item.quiz_category)}</span>
+              </td>
+              <td>
+                <span class="badge ${scoreBadge}">${pct}% (${item.score}/${item.total_questions})</span>
+              </td>
+              <td style="color: var(--text-muted); font-size: 0.88rem;">${formatDuration(item.time_taken)}</td>
+              <td style="color: var(--text-muted); font-size: 0.88rem;">${formatDate(item.completed_at)}</td>
+            </tr>
+          `;
+        }).join('');
+
+      } catch (err) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 2rem; color: #ef4444;">
+              Failed to load leaderboard: ${escapeHtml(err.message)}
+            </td>
+          </tr>
+        `;
+      }
+    }
+  </script>
+</body>
+</html>

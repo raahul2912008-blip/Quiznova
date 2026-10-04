@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taking Quiz – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top App Bar for Quiz -->
+  <header>
+    <nav class="navbar">
+      <a href="/dashboard.html" class="nav-brand" style="font-size: 1.25rem;">
+        <div class="brand-icon" style="width: 32px; height: 32px; font-size: 0.9rem;">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <button id="btn-cancel-quiz" class="btn btn-secondary btn-sm" onclick="confirmExitQuiz()">
+          <i class="fa-solid fa-arrow-left"></i> Exit to Dashboard
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Quiz Taking Interface -->
+  <main class="quiz-screen-container" id="quiz-app-container">
+    <!-- Top Quiz Meta & Timer Bar -->
+    <div class="quiz-top-bar">
+      <div>
+        <span class="badge badge-purple" style="margin-bottom: 4px;">Active Assessment</span>
+        <h1 class="quiz-info-title" id="quiz-header-title">Loading Quiz...</h1>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="timer-box" id="timer-box">
+          <i class="fa-solid fa-clock"></i>
+          <span id="timer-display">00:00</span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="btn-submit-quiz">
+          <i class="fa-solid fa-paper-plane"></i> Submit Quiz
+        </button>
+      </div>
+
+      <!-- Linear Progress Bar -->
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+      </div>
+    </div>
+
+    <!-- Question Palette -->
+    <div style="margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">
+        Question Navigator:
+      </span>
+      <span style="font-size: 0.8rem; color: var(--text-sub);">
+        <i class="fa-solid fa-circle" style="color: var(--accent-purple); font-size: 0.6rem;"></i> Answered &nbsp;
+        <i class="fa-solid fa-circle" style="color: var(--accent-cyan); font-size: 0.6rem;"></i> Current
+      </span>
+    </div>
+    <div class="palette-container" id="question-palette">
+      <!-- Buttons 1..N generated via quiz.js -->
+    </div>
+
+    <!-- Question Card -->
+    <div class="question-card">
+      <span class="question-number-tag" id="question-number-tag">Question 1 of 5</span>
+      <h2 class="question-text" id="question-text">Loading question text...</h2>
+
+      <div class="options-container" id="options-container">
+        <!-- 4 Options generated via quiz.js -->
+      </div>
+    </div>
+
+    <!-- Quiz Action Footer Navigation -->
+    <div class="quiz-nav-footer">
+      <button id="btn-prev" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i> Previous
+      </button>
+      <button id="btn-next" class="btn btn-primary">
+        Next <i class="fa-solid fa-arrow-right"></i>
+      </button>
+    </div>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/quiz.js"></script>
+  <script>
+    function confirmExitQuiz() {
+      showConfirmModal({
+        title: 'Leave Quiz?',
+        message: 'Are you sure you want to exit? Your answers and current quiz attempt will be discarded.',
+        confirmText: 'Yes, Exit',
+        cancelText: 'Stay Here',
+        confirmClass: 'btn-danger',
+        onConfirm: () => {
+          window.location.href = '/dashboard.html';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

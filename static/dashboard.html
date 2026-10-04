@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Learning Portal – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/" class="nav-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>Quiz<span class="gradient-text">Nova</span></span>
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="/dashboard.html" class="nav-link active">Dashboard</a></li>
+        <li><a href="#available-quizzes-section" class="nav-link">Explore Quizzes</a></li>
+        <li><a href="/leaderboard.html" class="nav-link">Leaderboard</a></li>
+        <li><a href="/profile.html" class="nav-link">My Progress</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section">
+        <!-- Rendered dynamically via app.js including Theme Switcher -->
+      </div>
+    </nav>
+  </header>
+
+  <!-- Educational Dashboard Layout -->
+  <div class="dashboard-layout">
+    <!-- Left Navigation Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Learning Academy</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="/dashboard.html" class="sidebar-item active">
+              <i class="fa-solid fa-house"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="#available-quizzes-section" class="sidebar-item">
+              <i class="fa-solid fa-book-open"></i>
+              <span>Explore Quizzes</span>
+            </a>
+          </li>
+          <li>
+            <a href="/profile.html" class="sidebar-item">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>My Progress</span>
+            </a>
+          </li>
+          <li>
+            <a href="/leaderboard.html" class="sidebar-item">
+              <i class="fa-solid fa-trophy"></i>
+              <span>Leaderboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="/profile.html" class="sidebar-item">
+              <i class="fa-solid fa-user"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Weekly Learning Goal Widget -->
+        <div class="sidebar-goal-box">
+          <div class="sidebar-goal-title">
+            <i class="fa-solid fa-bullseye"></i>
+            <span>Weekly Goal</span>
+          </div>
+          <p class="sidebar-goal-desc">Complete 3 practice quizzes this week</p>
+          <div class="goal-progress-bar">
+            <div class="goal-progress-fill" id="goal-progress-fill" style="width: 0%;"></div>
+          </div>
+          <div class="goal-meta-text">
+            <span id="goal-progress-count">0 of 3 completed</span>
+            <span id="goal-progress-pct">0%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-user-footer">
+        <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-circle-check" style="color: var(--accent-emerald);"></i>
+          <span>Student Account</span>
+        </div>
+        <button onclick="Auth.logout()" class="btn-icon" title="Sign Out">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Learning Portal Area -->
+    <main class="dashboard-content">
+      <!-- Welcoming Educational Header -->
+      <section class="dash-header">
+        <div class="dash-title-group">
+          <h1>Welcome back, <span class="gradient-text" id="welcome-username">Learner</span>! 👋</h1>
+          <p>Ready to learn something new today?</p>
+          <div class="motivation-banner" id="streak-banner">
+            <i class="fa-solid fa-fire" style="color: var(--accent-amber);"></i>
+            <span id="streak-banner-text">A little practice goes a long way. Ready when you are.</span>
+          </div>
+        </div>
+        <div>
+          <a href="#available-quizzes-section" class="btn btn-primary">
+            <i class="fa-solid fa-play"></i> Browse Quizzes
+          </a>
+        </div>
+      </section>
+
+      <!-- Continue Learning Card (Recent Quiz Activity) -->
+      <section class="continue-learning-section" id="continue-learning-section">
+        <div id="continue-learning-container">
+          <!-- Dynamically populated via dashboard.js -->
+        </div>
+      </section>
+
+      <!-- Your Learning Progress Section -->
+      <section class="learning-progress-section">
+        <div style="margin-bottom: 1.1rem;">
+          <h2 style="font-size: 1.35rem; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-chart-pie" style="color: var(--accent-primary);"></i>
+            Your Learning Progress
+          </h2>
+        </div>
+
+        <div class="learning-progress-grid">
+          <!-- 4 Core Metric Stat Cards -->
+          <div class="progress-stats-col">
+            <div class="metric-card">
+              <div class="metric-icon-box icon-blue">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-val" id="stat-completed">0</span>
+                <span class="metric-sub">Quizzes Completed</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon-box icon-emerald">
+                <i class="fa-solid fa-gauge-high"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-val" id="stat-avg-score">0%</span>
+                <span class="metric-sub">Average Score</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon-box icon-amber">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-val" id="stat-streak">0</span>
+                <span class="metric-sub">Learning Streak</span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <div class="metric-icon-box icon-purple">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <div class="metric-details">
+                <span class="metric-val" id="stat-best-score">0%</span>
+                <span class="metric-sub">Best Score</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Weekly Learning Activity Visualization (Real 7-day data) -->
+          <div class="weekly-activity-card">
+            <div class="weekly-activity-header">
+              <div class="weekly-activity-title">
+                <i class="fa-solid fa-calendar-days" style="color: var(--accent-primary);"></i>
+                Weekly Activity
+              </div>
+              <span style="font-size: 0.72rem; color: var(--text-muted);">Past 7 Days</span>
+            </div>
+
+            <div class="weekly-bars-container" id="weekly-bars-container">
+              <!-- Rendered via dashboard.js -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Explore Quizzes Section -->
+      <section id="available-quizzes-section">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.8rem;">
+          <div>
+            <h2 style="font-size: 1.45rem;">Explore quizzes</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem;">Pick a topic you'd like to practice today and keep building your skills.</p>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="filter-container">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass input-icon" style="top: 12px;"></i>
+            <input type="text" id="search-quiz-input" class="search-input" placeholder="Search by topic, keyword, or concept...">
+          </div>
+
+          <div class="filter-group">
+            <select id="filter-category" class="select-filter">
+              <option value="all">All Learning Categories</option>
+              <option value="Programming">Programming</option>
+              <option value="Web Dev">Web Development</option>
+              <option value="Database">Database & SQL</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Science">Science</option>
+              <option value="DevOps">Cloud & DevOps</option>
+            </select>
+
+            <select id="filter-difficulty" class="select-filter">
+              <option value="all">All Difficulties</option>
+              <option value="Easy">Beginner</option>
+              <option value="Medium">Intermediate</option>
+              <option value="Hard">Advanced</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Course-style Quizzes Grid -->
+        <div class="quizzes-grid" id="quizzes-container">
+          <!-- Dynamically populated via dashboard.js -->
+        </div>
+      </section>
+
+      <!-- Recent Practice History -->
+      <section style="margin-top: 1rem;">
+        <div style="margin-bottom: 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h2 style="font-size: 1.35rem;">Recent Practice Sessions</h2>
+            <p style="color: var(--text-muted); font-size: 0.85rem;">Review your recent quiz results and explanations to turn mistakes into breakthroughs.</p>
+          </div>
+          <a href="/profile.html" class="btn btn-secondary btn-sm">Full History</a>
+        </div>
+
+        <div class="data-table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Quiz Topic</th>
+                <th>Score & Percentage</th>
+                <th>Duration</th>
+                <th>Practice Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="recent-attempts-tbody">
+              <!-- Dynamically populated via dashboard.js -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

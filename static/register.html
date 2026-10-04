@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Account – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="auth-page auth-register-page">
+
+  <!-- Minimal Nav -->
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+      <div>
+        <a href="/login.html" class="btn btn-secondary btn-sm">Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Register Container -->
+  <main class="auth-container auth-split-layout">
+    <aside class="auth-showcase" aria-label="Start learning with QuizNova">
+      <div class="auth-showcase-content">
+        <a href="/" class="auth-showcase-brand">
+          <span class="auth-showcase-brand-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+          <span>Quiz<span>Nova</span></span>
+        </a>
+        <div class="auth-showcase-copy">
+          <span class="auth-eyebrow"><i class="fa-solid fa-sparkles"></i> Make room for curiosity</span>
+          <h2>Learn.<br>Practice.<br><span>Achieve.</span></h2>
+          <p>Discover what you can do with a little practice, a curious mind, and a place to grow.</p>
+        </div>
+        <div class="auth-learning-visual" aria-hidden="true">
+          <div class="auth-visual-orbit auth-visual-orbit-one"></div>
+          <div class="auth-visual-orbit auth-visual-orbit-two"></div>
+          <div class="auth-visual-book"><i class="fa-solid fa-book-open"></i></div>
+          <div class="auth-visual-note auth-visual-note-top">
+            <span class="auth-visual-note-icon"><i class="fa-solid fa-flask"></i></span>
+            <span><strong>Discover new topics</strong><small>Learn something every day</small></span>
+          </div>
+          <div class="auth-visual-note auth-visual-note-bottom">
+            <span class="auth-visual-note-icon auth-visual-note-icon-warm"><i class="fa-solid fa-seedling"></i></span>
+            <span><strong>Celebrate progress</strong><small>Big things grow from small steps</small></span>
+          </div>
+        </div>
+        <div class="auth-showcase-footer"><i class="fa-solid fa-circle-check"></i> Your learning journey, all in one place</div>
+      </div>
+    </aside>
+
+    <section class="auth-form-side" aria-labelledby="auth-heading">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-card-icon"><i class="fa-solid fa-user-plus"></i></span>
+        <span class="auth-card-kicker">YOUR NEXT CHAPTER STARTS HERE</span>
+        <h1 id="auth-heading">Create Your Account ✨</h1>
+        <p>Start your learning journey today.</p>
+      </div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label class="form-label" for="reg-name">Full Name</label>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-user input-icon"></i>
+            <input type="text" id="reg-name" class="form-input" placeholder="e.g. Alex Morgan" required autocomplete="name">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-envelope input-icon"></i>
+            <input type="email" id="reg-email" class="form-input" placeholder="alex@example.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password</label>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input type="password" id="reg-password" class="form-input" placeholder="Minimum 6 characters" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="reg-password" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="reg-confirm-password">Confirm Password</label>
+          <div class="form-input-wrapper">
+            <i class="fa-solid fa-shield-check input-icon"></i>
+            <input type="password" id="reg-confirm-password" class="form-input" placeholder="Re-enter your password" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" data-target="reg-confirm-password" aria-label="Toggle password visibility">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <input type="hidden" id="reg-role" value="STUDENT">
+
+        <button type="submit" class="btn btn-primary auth-submit-btn">
+          <i class="fa-solid fa-rocket"></i> Create Account
+        </button>
+      </form>
+
+      <div class="auth-switch-link">
+        Already have an account?
+        <a href="/login.html">Sign In</a>
+      </div>
+    </div>
+    <p class="auth-form-footnote"><i class="fa-solid fa-shield-halved"></i> A welcoming space to learn and improve.</p>
+    </section>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>

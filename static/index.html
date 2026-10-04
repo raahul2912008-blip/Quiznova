@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizNova – Online Quiz & Learning System</title>
+  <meta name="description" content="Sharpen your skills with interactive timed quizzes, instant answers, and friendly leaderboards.">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/" class="nav-link active">Home</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li><a href="/leaderboard.html" class="nav-link">Leaderboard</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section">
+        <!-- Rendered dynamically via app.js including Theme Switcher -->
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main>
+    <section class="hero-section">
+      <div class="hero-pill">
+        <i class="fa-solid fa-sparkles"></i>
+        <span>Practice, learn, and master any subject</span>
+      </div>
+
+      <h1 class="hero-title">
+        Master new skills with<br>
+        <span class="gradient-text">interactive quizzes</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Take timed practice tests, get instant answer explanations, and see how you rank against fellow students.
+      </p>
+
+      <div class="hero-cta">
+        <a href="/dashboard.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-play"></i> Browse Quizzes
+        </a>
+        <a href="/leaderboard.html" class="btn btn-secondary btn-lg">
+          <i class="fa-solid fa-trophy"></i> View Leaderboards
+        </a>
+      </div>
+
+      <!-- Hero Statistics Cards -->
+      <div class="hero-stats-grid">
+        <div class="stat-metric-card">
+          <div class="stat-number gradient-text">Instant</div>
+          <div class="stat-label">Feedback & Scoring</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-number" style="color: var(--accent-emerald);">100%</div>
+          <div class="stat-label">Detailed Explanations</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-number" style="color: var(--accent-amber);">Timed</div>
+          <div class="stat-label">Real Exam Practice</div>
+        </div>
+        <div class="stat-metric-card">
+          <div class="stat-number" style="color: var(--accent-primary);">Live</div>
+          <div class="stat-label">Student Rankings</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+      <div class="section-header">
+        <span class="section-tag">Why QuizNova</span>
+        <h2 class="section-title">Designed for real learning</h2>
+        <p class="section-subtitle">Everything you need to test what you know, review mistakes, and improve with confidence.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-stopwatch"></i>
+          </div>
+          <h3 class="feature-heading">Timed Challenges</h3>
+          <p class="feature-desc">Build real confidence under realistic time limits with automatic countdowns and smooth progress saving.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <h3 class="feature-heading">Instant Results</h3>
+          <p class="feature-desc">No waiting around. Scores and percentages are computed immediately so you always know where you stand.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h3 class="feature-heading">Clear Explanations</h3>
+          <p class="feature-desc">Turn every mistake into a learning moment with straightforward explanations for every question.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-trophy"></i>
+          </div>
+          <h3 class="feature-heading">Friendly Competition</h3>
+          <p class="feature-desc">Climb the podium leaderboard, compare scores by category, and celebrate personal bests.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <h3 class="feature-heading">Private & Secure</h3>
+          <p class="feature-desc">Built with industry-standard bcrypt encryption and token security to protect all user accounts.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-wrapper">
+            <i class="fa-solid fa-sliders"></i>
+          </div>
+          <h3 class="feature-heading">Easy Quiz Authoring</h3>
+          <p class="feature-desc">Instructors and admins can easily create questions, set time limits, and publish quizzes in seconds.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works-section" id="how-it-works">
+      <div class="section-header">
+        <span class="section-tag">Simple Steps</span>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Get started in under a minute and start testing your skills right away.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <h3 class="step-title">Sign In</h3>
+          <p class="step-desc">Create your account or use 1-click demo logins to enter.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <h3 class="step-title">Pick a Topic</h3>
+          <p class="step-desc">Choose from Programming, Web Dev, Databases, and more.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <h3 class="step-title">Answer Questions</h3>
+          <p class="step-desc">Tackle questions one by one with a simple, focused interface.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">4</div>
+          <h3 class="step-title">See Your Score</h3>
+          <p class="step-desc">Review which answers you got right and read helpful tips.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">5</div>
+          <h3 class="step-title">Climb & Grow</h3>
+          <p class="step-desc">Retake tests, beat your high score, and top the leaderboard.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="nav-brand" style="font-size: 1.2rem;">
+          <div class="brand-icon" style="width: 28px; height: 28px; font-size: 0.85rem;">
+            <i class="fa-solid fa-bolt"></i>
+          </div>
+          <span>Quiz<span class="gradient-text">Nova</span></span>
+        </div>
+        <p class="footer-copy" style="margin-top: 6px;">Challenge Your Mind. Track Your Growth.</p>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/leaderboard.html">Leaderboard</a></li>
+        <li><a href="/login.html">Sign In</a></li>
+        <li><a href="/register.html">Sign Up</a></li>
+      </ul>
+
+      <div class="footer-copy">
+        &copy; 2026 QuizNova. Empowering curious minds everywhere.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

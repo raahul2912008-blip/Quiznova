@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Quiz – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/" class="nav-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>Quiz<span class="gradient-text">Nova</span></span>
+          <span class="badge badge-purple" style="margin-left: 8px;">ADMIN</span>
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="/admin.html" class="nav-link">Admin Panel</a></li>
+        <li><a href="/manage-quizzes.html" class="nav-link">Quizzes</a></li>
+        <li><a href="/results.html" class="nav-link">Results</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section"></div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Admin Management</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="/admin.html" class="sidebar-item">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li>
+            <a href="/create-quiz.html" class="sidebar-item active">
+              <i class="fa-solid fa-circle-plus"></i>
+              <span>Create Quiz</span>
+            </a>
+          </li>
+          <li>
+            <a href="/manage-quizzes.html" class="sidebar-item">
+              <i class="fa-solid fa-sliders"></i>
+              <span>Manage Quizzes</span>
+            </a>
+          </li>
+          <li>
+            <a href="/results.html" class="sidebar-item">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Student Results</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-user-footer">
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="width: 100%;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-content" style="max-width: 1000px;">
+      <div class="dash-header">
+        <div class="dash-title-group">
+          <h1>Author New <span class="gradient-text">Quiz</span></h1>
+          <p>Define metadata, allocate exam duration, and construct multiple-choice questions with answer keys.</p>
+        </div>
+        <a href="/manage-quizzes.html" class="btn btn-secondary">
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </a>
+      </div>
+
+      <form id="create-quiz-form">
+        <!-- Section 1: Quiz Metadata -->
+        <div class="admin-card-section">
+          <h2 style="font-size: 1.3rem; margin-bottom: 1.2rem; color: #fff;">
+            <i class="fa-solid fa-sliders" style="color: var(--accent-purple); margin-right: 8px;"></i>
+            General Configuration
+          </h2>
+
+          <div class="form-group">
+            <label class="form-label" for="quiz-title">Quiz Title *</label>
+            <input type="text" id="quiz-title" class="form-input no-icon" placeholder="e.g. Advanced JavaScript Mastery" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="quiz-description">Description</label>
+            <textarea id="quiz-description" class="form-input no-icon" rows="2" placeholder="Brief summary of skills assessed in this test..."></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            <div class="form-group">
+              <label class="form-label" for="quiz-category">Category *</label>
+              <select id="quiz-category" class="form-input no-icon" style="cursor: pointer;">
+                <option value="Programming">Programming</option>
+                <option value="Web Dev">Web Dev</option>
+                <option value="Database">Database</option>
+                <option value="DevOps">DevOps</option>
+                <option value="Cybersecurity">Cybersecurity</option>
+                <option value="General">General</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="quiz-difficulty">Difficulty *</label>
+              <select id="quiz-difficulty" class="form-input no-icon" style="cursor: pointer;">
+                <option value="Easy">Easy</option>
+                <option value="Medium" selected>Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="quiz-duration">Duration (Minutes) *</label>
+              <input type="number" id="quiz-duration" class="form-input no-icon" value="10" min="1" max="180" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="quiz-publish-status">Initial Status</label>
+              <select id="quiz-publish-status" class="form-input no-icon" style="cursor: pointer;">
+                <option value="true" selected>Published (Live to Students)</option>
+                <option value="false">Draft (Hidden)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Question Builder -->
+        <div class="admin-card-section">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h2 style="font-size: 1.3rem; color: #fff;">
+                <i class="fa-solid fa-layer-group" style="color: var(--accent-cyan); margin-right: 8px;"></i>
+                Questions (<span id="total-questions-counter">0</span>)
+              </h2>
+              <p style="color: var(--text-muted); font-size: 0.85rem;">
+                Select the radio button next to an option to designate it as the verified correct answer.
+              </p>
+            </div>
+
+            <button type="button" id="btn-add-question" class="btn btn-secondary btn-sm">
+              <i class="fa-solid fa-plus"></i> Add Question
+            </button>
+          </div>
+
+          <div id="questions-builder-container">
+            <!-- Dynamically populated via admin.js -->
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+          <a href="/manage-quizzes.html" class="btn btn-secondary">Cancel</a>
+          <button type="submit" id="btn-submit-create-quiz" class="btn btn-primary btn-lg">
+            <i class="fa-solid fa-floppy-disk"></i> Save & Publish Assessment
+          </button>
+        </div>
+      </form>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>

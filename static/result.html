@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Result – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <a href="/" class="nav-brand">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Quiz<span class="gradient-text">Nova</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+        <li><a href="/dashboard.html#available-quizzes-section" class="nav-link">Explore Quizzes</a></li>
+        <li><a href="/leaderboard.html" class="nav-link">Leaderboard</a></li>
+        <li><a href="/profile.html" class="nav-link">My Progress</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section"></div>
+    </nav>
+  </header>
+
+  <!-- Result Container -->
+  <main class="result-container" id="result-screen">
+    <!-- Main Result Card -->
+    <div class="result-card-main">
+      <span class="badge badge-purple" style="margin-bottom: 0.8rem;" id="res-quiz-category">Assessment Result</span>
+      <h1 style="font-size: 2rem; margin-bottom: 0.35rem;">Quiz Completed!</h1>
+      <p style="color: var(--text-muted); font-size: 1rem;" id="res-quiz-title">Loading details...</p>
+
+      <!-- SVG Animated Score Circle -->
+      <div class="score-circle-wrapper">
+        <svg class="score-circle-svg" viewBox="0 0 160 160">
+          <defs>
+            <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#10b981" />
+            </linearGradient>
+          </defs>
+          <circle class="score-circle-bg" cx="80" cy="80" r="70" />
+          <circle class="score-circle-progress" id="score-circle-stroke" cx="80" cy="80" r="70" />
+        </svg>
+        <div class="score-circle-text">
+          <span class="score-pct gradient-text" id="res-score-pct">0%</span>
+          <span class="score-fraction" id="res-score-fraction">0 / 0</span>
+        </div>
+      </div>
+
+      <!-- Performance Feedback Message -->
+      <div class="perf-message" id="res-perf-message">Evaluating Your Answers...</div>
+      <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 480px; margin: 0 auto;" id="res-perf-subtext">
+        Review your responses below to see what you mastered and what you can brush up on.
+      </p>
+
+      <!-- Score Metrics Pills -->
+      <div class="result-stats-grid">
+        <div class="result-stat-pill">
+          <div class="stat-pill-val" style="color: var(--accent-emerald);" id="res-correct-count">0</div>
+          <div class="stat-pill-label">Correct Answers</div>
+        </div>
+        <div class="result-stat-pill">
+          <div class="stat-pill-val" style="color: var(--accent-rose);" id="res-wrong-count">0</div>
+          <div class="stat-pill-label">Incorrect Answers</div>
+        </div>
+        <div class="result-stat-pill">
+          <div class="stat-pill-val" style="color: var(--text-sub);" id="res-unanswered-count">0</div>
+          <div class="stat-pill-label">Unanswered</div>
+        </div>
+        <div class="result-stat-pill">
+          <div class="stat-pill-val" style="color: var(--accent-primary);" id="res-time-taken">0s</div>
+          <div class="stat-pill-label">Time Spent</div>
+        </div>
+      </div>
+
+      <!-- Result Action CTAs -->
+      <div style="display: flex; justify-content: center; gap: 0.9rem; flex-wrap: wrap; margin-top: 1.4rem;">
+        <a href="/dashboard.html" class="btn btn-secondary">
+          <i class="fa-solid fa-house"></i> My Dashboard
+        </a>
+        <a href="/dashboard.html#available-quizzes-section" class="btn btn-primary">
+          <i class="fa-solid fa-play"></i> Try Another Quiz
+        </a>
+        <a href="/leaderboard.html" class="btn btn-secondary">
+          <i class="fa-solid fa-trophy"></i> Leaderboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Question Diagnostic Review Header -->
+    <div style="margin: 2.2rem 0 1.1rem;">
+      <h2 style="font-size: 1.45rem;">Review Your Answers</h2>
+      <p style="color: var(--text-muted); font-size: 0.88rem;">
+        Check explanations for each question to solidify your understanding.
+      </p>
+    </div>
+
+    <!-- Detailed Question Review Container -->
+    <div id="question-reviews-list">
+      <div style="text-align: center; padding: 2rem;">
+        <span class="spinner"></span>
+        <p style="color: var(--text-muted); margin-top: 8px;">Loading questions...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!Auth.requireAuth()) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const attemptId = params.get('attempt_id');
+
+      if (!attemptId) {
+        showToast('Result Not Found', 'No attempt ID was specified.', 'error');
+        setTimeout(() => window.location.href = '/dashboard.html', 1000);
+        return;
+      }
+
+      try {
+        const data = await apiFetch(`/api/attempts/${attemptId}`);
+        renderResult(data);
+      } catch (err) {
+        document.getElementById('result-screen').innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-triangle-exclamation empty-state-icon" style="color: var(--accent-rose);"></i>
+            <h3>Unable to Load Result</h3>
+            <p>${escapeHtml(err.message)}</p>
+            <a href="/dashboard.html" class="btn btn-secondary">Return to Dashboard</a>
+          </div>
+        `;
+      }
+    });
+
+    function renderResult(data) {
+      document.getElementById('res-quiz-title').textContent = data.quiz_title;
+      document.getElementById('res-quiz-category').textContent = `${data.quiz_category} • ${data.quiz_difficulty}`;
+
+      const pct = data.percentage;
+      document.getElementById('res-score-pct').textContent = `${pct}%`;
+      document.getElementById('res-score-fraction').textContent = `${data.score} of ${data.total_questions} Correct`;
+
+      document.getElementById('res-correct-count').textContent = data.correct_answers;
+      document.getElementById('res-wrong-count').textContent = data.wrong_answers;
+      document.getElementById('res-unanswered-count').textContent = data.unanswered;
+      document.getElementById('res-time-taken').textContent = formatDuration(data.time_taken);
+
+      // Humanized Performance Messages
+      const perfMsgEl = document.getElementById('res-perf-message');
+      const perfSubEl = document.getElementById('res-perf-subtext');
+
+      if (pct >= 90) {
+        perfMsgEl.textContent = 'Brilliant work! You nailed it 🎯';
+        perfMsgEl.style.color = 'var(--accent-emerald)';
+        perfSubEl.textContent = 'Outstanding result! You demonstrated comprehensive command of this subject.';
+      } else if (pct >= 75) {
+        perfMsgEl.textContent = 'Great job! You know your stuff 👏';
+        perfMsgEl.style.color = 'var(--accent-primary)';
+        perfSubEl.textContent = 'Strong grasp shown! Review the few questions below to get even sharper.';
+      } else if (pct >= 50) {
+        perfMsgEl.textContent = 'Good effort! Keep going 🚀';
+        perfMsgEl.style.color = 'var(--accent-amber)';
+        perfSubEl.textContent = 'Solid foundation! Check out the explanations below to turn tricky spots into strengths.';
+      } else {
+        perfMsgEl.textContent = "Don't worry — practice makes perfect! 💡";
+        perfMsgEl.style.color = 'var(--accent-rose)';
+        perfSubEl.textContent = 'Take a look at the answers below, review the concepts, and try again whenever you are ready!';
+      }
+
+      // Animate circular progress bar
+      const strokeEl = document.getElementById('score-circle-stroke');
+      if (strokeEl) {
+        const offset = 440 - (440 * (pct / 100));
+        setTimeout(() => {
+          strokeEl.style.strokeDashoffset = offset;
+        }, 150);
+      }
+
+      // Render Question Reviews
+      const reviewContainer = document.getElementById('question-reviews-list');
+      if (!reviewContainer) return;
+
+      if (!data.review || data.review.length === 0) {
+        reviewContainer.innerHTML = `<p style="color: var(--text-muted); text-align: center;">No question reviews available.</p>`;
+        return;
+      }
+
+      reviewContainer.innerHTML = data.review.map((item, idx) => {
+        let statusBadge = '';
+        let itemClass = 'unanswered';
+
+        if (item.selected_answer === null) {
+          statusBadge = `<span class="badge badge-gray"><i class="fa-solid fa-minus"></i> Unanswered</span>`;
+          itemClass = 'unanswered';
+        } else if (item.is_correct) {
+          statusBadge = `<span class="badge badge-green"><i class="fa-solid fa-check"></i> Correct</span>`;
+          itemClass = 'correct';
+        } else {
+          statusBadge = `<span class="badge badge-red"><i class="fa-solid fa-xmark"></i> Incorrect</span>`;
+          itemClass = 'wrong';
+        }
+
+        const options = [
+          { key: 'A', text: item.option_a },
+          { key: 'B', text: item.option_b },
+          { key: 'C', text: item.option_c },
+          { key: 'D', text: item.option_d }
+        ];
+
+        return `
+          <div class="review-item ${itemClass}">
+            <div class="review-meta">
+              <span class="badge badge-purple">Question ${idx + 1}</span>
+              ${statusBadge}
+            </div>
+
+            <div class="review-question-title">${escapeHtml(item.question_text)}</div>
+
+            <div class="review-choices">
+              ${options.map(opt => {
+                const isSelected = item.selected_answer === opt.key;
+                const isTargetCorrect = item.correct_answer === opt.key;
+
+                let optClass = 'choice-box';
+                let icon = '';
+
+                if (isTargetCorrect) {
+                  optClass += ' correct-target';
+                  icon = `<i class="fa-solid fa-check" style="color: var(--accent-emerald); margin-right: 5px;"></i> (Correct)`;
+                }
+                if (isSelected && isTargetCorrect) {
+                  optClass += ' user-choice-correct';
+                  icon = `<i class="fa-solid fa-circle-check" style="color: var(--accent-emerald); margin-right: 5px;"></i> (Your Choice)`;
+                } else if (isSelected && !isTargetCorrect) {
+                  optClass += ' user-choice-wrong';
+                  icon = `<i class="fa-solid fa-circle-xmark" style="color: var(--accent-rose); margin-right: 5px;"></i> (Your Choice)`;
+                }
+
+                return `
+                  <div class="${optClass}">
+                    <strong>${opt.key}.</strong> ${escapeHtml(opt.text)}
+                    <span style="font-size: 0.8rem; margin-left: 5px;">${icon}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            ${item.explanation ? `
+              <div class="review-explanation">
+                <i class="fa-solid fa-lightbulb" style="color: var(--accent-amber); margin-right: 6px;"></i>
+                <strong>Explanation:</strong> ${escapeHtml(item.explanation)}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

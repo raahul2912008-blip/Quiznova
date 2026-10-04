@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Results – QuizNova</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header>
+    <nav class="navbar">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+        <a href="/" class="nav-brand">
+          <div class="brand-icon">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <span>Quiz<span class="gradient-text">Nova</span></span>
+          <span class="badge badge-purple" style="margin-left: 8px;">ADMIN</span>
+        </a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="/admin.html" class="nav-link">Admin Panel</a></li>
+        <li><a href="/manage-quizzes.html" class="nav-link">Quizzes</a></li>
+        <li><a href="/results.html" class="nav-link active">Results</a></li>
+      </ul>
+
+      <div class="nav-auth" id="nav-auth-section"></div>
+    </nav>
+  </header>
+
+  <!-- Layout -->
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div>
+        <div class="sidebar-label">Admin Management</div>
+        <ul class="sidebar-menu">
+          <li>
+            <a href="/admin.html" class="sidebar-item">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Overview</span>
+            </a>
+          </li>
+          <li>
+            <a href="/create-quiz.html" class="sidebar-item">
+              <i class="fa-solid fa-circle-plus"></i>
+              <span>Create Quiz</span>
+            </a>
+          </li>
+          <li>
+            <a href="/manage-quizzes.html" class="sidebar-item">
+              <i class="fa-solid fa-sliders"></i>
+              <span>Manage Quizzes</span>
+            </a>
+          </li>
+          <li>
+            <a href="/results.html" class="sidebar-item active">
+              <i class="fa-solid fa-list-check"></i>
+              <span>Student Results</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-user-footer">
+        <button onclick="Auth.logout()" class="btn btn-secondary btn-sm" style="width: 100%;">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-content">
+      <div class="dash-header">
+        <div class="dash-title-group">
+          <h1>Student Submission <span class="gradient-text">Analytics</span></h1>
+          <p>Examine individual submissions, filter performance by assessment, and inspect diagnostic logs.</p>
+        </div>
+      </div>
+
+      <!-- Filters & Search -->
+      <div class="filter-container">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass input-icon" style="top: 13px;"></i>
+          <input type="text" id="results-search" class="search-input" placeholder="Search by student name, email, or quiz...">
+        </div>
+
+        <div class="filter-group">
+          <select id="results-quiz-filter" class="select-filter" style="min-width: 200px;">
+            <option value="">All Quizzes</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results Table -->
+      <div class="data-table-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Student Name</th>
+              <th>Student Email</th>
+              <th>Quiz Assessment</th>
+              <th>Score & Percentage</th>
+              <th>Duration</th>
+              <th>Date Submitted</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-results-tbody">
+            <tr>
+              <td colspan="7" style="text-align: center; padding: 2rem;">
+                <span class="spinner"></span>
+                <p style="color: var(--text-muted); margin-top: 8px;">Loading results...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+  <script src="/static/js/admin.js"></script>
+</body>
+</html>
